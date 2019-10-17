@@ -7,6 +7,6 @@ spec:
     app: testflask
   type: LoadBalancer
   ports:
-  - protocol: TCP
-  - port: 80
-    targetPort: 8888
+    - protocol: TCP
+      port: 80
+      targetPort: 8888
