@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+ name: mytestflaskapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: testflask
+    spec:
+      containers:
+        - name: testflask
+          image: docker.io/YOUR_DOCKER_ID/testflask:v0.1.0
+          ports:
+            - name: myport
+              containerPort: 8888
+        
