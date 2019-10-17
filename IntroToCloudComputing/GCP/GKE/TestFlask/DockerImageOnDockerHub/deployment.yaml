@@ -16,4 +16,4 @@ spec:
             - name: myport
               containerPort: 8888
       imagePullSecrets:
-        - name: regsecret
+        - name: regcred
