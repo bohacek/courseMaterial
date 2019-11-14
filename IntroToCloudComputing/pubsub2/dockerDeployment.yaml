@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+ name: translator
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: translator
+    spec:
+      containers:
+        - name: translator
+          image: docker.io/DOCKERID/translator:v0.1.0
+      imagePullSecrets:
+       - name: regcred
