@@ -34,7 +34,7 @@ subscription_path = subscriber.subscription_path(PROJECT_ID, SUBSCRIPTION_NAME)
 # Set how many messages to pull in a bunch
 NUM_MESSAGES = 1
 # Pull the specfied number of messages.
-response = subscriber.pull(subscription_path, max_messages=NUM_MESSAGES)
+response = subscriber.pull(subscription=subscription_path, max_messages=NUM_MESSAGES)
 
 # Consume messages
 ack_ids = []
@@ -43,7 +43,7 @@ for received_message in response.received_messages:
     ack_ids.append(received_message.ack_id)
 
 # Acknowledge all of the received messages so they will not be sent again.
-subscriber.acknowledge(subscription_path, ack_ids)
+subscriber.acknowledge(request={"subscription": subscription_path, "ack_ids": ack_ids})
 
 print('Received and acknowledged {} messages. Done.'.format(len(response.received_messages)))
 

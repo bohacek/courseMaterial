@@ -25,5 +25,5 @@ publisher.create_topic(topic_full_name)
 # Send a message
 publisher.publish(topic_full_name, b'My first message!', spam='eggs')
 print("Sent first")
-publisher.publish(TOPIC_NAME, b'My second message!', spam='eggs')
+publisher.publish(topic_full_name, b'My second message!', spam='eggs')
 print("Sent second")
