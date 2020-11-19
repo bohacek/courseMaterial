@@ -20,7 +20,6 @@ OUTPUT_TOPIC_NAME = "OutputTopic"  # Set this to something appropriate.
 OUTPUT_SUBSCRIPTION_NAME = 'MyOutputSub'
 
 subscriber = pubsub_v1.SubscriberClient()
-project_path = subscriber.project_path(PROJECT_ID)
 
 output_topic_full_name = 'projects/{project_id}/topics/{topic}'.format(
     project_id=PROJECT_ID,
@@ -34,15 +33,14 @@ output_subscription_full_name = 'projects/{project_id}/subscriptions/{sub}'.form
 
 # check if output topic already exists. If not, then create it
 publisher = pubsub_v1.PublisherClient() # we need a publisher object because only publishers can get the list of topics and create topics
-project_path = publisher.project_path(PROJECT_ID)
-if output_topic_full_name not in [t.name for t in publisher.list_topics(project_path)]:
+if output_topic_full_name not in [t.name for t in publisher.list_topics(project="projects/{}".format(PROJECT_ID))]:
     print("Did not find topic. Creating")
     publisher.create_topic(output_topic_full_name)
     print("Created Topic {}".format(output_topic_full_name))
 
 
 # make subscription if needed
-if output_subscription_full_name not in [t.name for t in subscriber.list_subscriptions(project_path)]:
+if output_subscription_full_name not in [t.name for t in subscriber.list_subscriptions(project="projects/{}".format(PROJECT_ID))]:
     print("Did not find subscription. Creating")
     # Make subscription. Include this line only once. After running the first time, comment this line out
     subscriber.create_subscription(name=output_subscription_full_name, topic=output_topic_full_name, ack_deadline_seconds = 60)

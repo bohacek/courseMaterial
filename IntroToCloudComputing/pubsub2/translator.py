@@ -59,22 +59,19 @@ logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 log = logging.getLogger(__file__) # set the name of the log entry
 
 
-# make topics if not already made
-# get the list of topics
-project_path = publisher.project_path(PROJECT_ID)
 
 # check if topic already exists. If not, then create it
 fd = False
 """
 # loop through each topic. It is better to use a List Comprehensions, shown below
-for topic in publisher.list_topics(project_path):
+for topic in publisher.list_topics(project="projects/{}".format(PROJECT_ID)):
     print(topic)
     if topic.name == output_topic_full_name:
         fd = True
         break
 """
 
-if output_topic_full_name in [t.name for t in publisher.list_topics(project_path)]:
+if output_topic_full_name in [t.name for t in publisher.list_topics(project="projects/{}".format(PROJECT_ID))]:
     fd = True
 if fd==False:
     log.info("Did not find topic. Creating")
@@ -83,7 +80,7 @@ if fd==False:
 
 
 # check if input topic already exists. If not, then create it
-if input_topic_full_name not in [t.name for t in publisher.list_topics(project_path)]:
+if input_topic_full_name not in [t.name for t in publisher.list_topics(project="projects/{}".format(PROJECT_ID))]:
     # need to make input topic
     log.info("Did not find topic. Creating")
     publisher.create_topic(input_topic_full_name)
@@ -93,7 +90,7 @@ if input_topic_full_name not in [t.name for t in publisher.list_topics(project_p
 subscriber = pubsub_v1.SubscriberClient()
 
 # make subscription if needed
-if input_subscription_full_name not in [t.name for t in subscriber.list_subscriptions(project_path)]:
+if input_subscription_full_name not in [t.name for t in subscriber.list_subscriptions(project="projects/{}".format(PROJECT_ID))]:
     log.info("Did not find subscription. Creating")
     # Make subscription. Include this line only once. After running the first time, comment this line out
     subscriber.create_subscription(name=input_subscription_full_name, topic=input_topic_full_name, ack_deadline_seconds = 60)

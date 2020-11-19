@@ -21,10 +21,9 @@ input_topic_full_name = 'projects/{project_id}/topics/{topic}'.format(
 # Make publisher object
 publisher = pubsub_v1.PublisherClient()
 
-project_path = publisher.project_path(PROJECT_ID)
 
 # check if input topic already exists. If not, then create it
-if input_topic_full_name not in [t.name for t in publisher.list_topics(project_path)]:
+if input_topic_full_name not in [t.name for t in publisher.list_topics(project="projects/{}".format(PROJECT_ID))]:
     # need to make input topic
     print("Did not find topic. Creating")
     publisher.create_topic(input_topic_full_name)
