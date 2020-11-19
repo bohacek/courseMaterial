@@ -107,13 +107,13 @@ NUM_MESSAGES = 1
 while True:
     try:
         # Pull the specfied number of messages.
-        response = subscriber.pull(subscription_path, max_messages=NUM_MESSAGES, timeout = 30)
+        response = subscriber.pull(subscription=subscription_path, max_messages=NUM_MESSAGES, timeout = 30)
 
         # Consume messages
         ack_ids = []
         for received_message in response.received_messages:
             ack_ids.append(received_message.ack_id)
-            subscriber.modify_ack_deadline(subscription_path, ack_ids, ack_deadline_seconds=60) # extend deadline for this message for 60 seconds from now
+            subscriber.modify_ack_deadline(subscription=subscription_path, ack_ids=ack_ids, ack_deadline_seconds=60) # extend deadline for this message for 60 seconds from now
             log.info("Received: {} with id {}".format(received_message.message.data, received_message.ack_id))
             try:
                 res_dict = json.loads(received_message.message.data.decode('utf-8'))
@@ -124,7 +124,7 @@ while True:
 
         if len(ack_ids)>0:
             # Acknowledge all of the received messages so they will not be sent again.
-            subscriber.acknowledge(subscription_path, ack_ids)
+            subscriber.acknowledge(request={"subscription": subscription_path, "ack_ids": ack_ids})
         else:
             print("timed out. Re-requesting messages")
     except google.api_core.exceptions.GoogleAPICallError as err:
