@@ -75,7 +75,7 @@ if output_topic_full_name in [t.name for t in publisher.list_topics(project="pro
     fd = True
 if fd==False:
     log.info("Did not find topic. Creating")
-    publisher.create_topic(output_topic_full_name)
+    publisher.create_topic(name = output_topic_full_name)
     log.info("Created Topic {}".format(output_topic_full_name))
 
 
@@ -83,7 +83,7 @@ if fd==False:
 if input_topic_full_name not in [t.name for t in publisher.list_topics(project="projects/{}".format(PROJECT_ID))]:
     # need to make input topic
     log.info("Did not find topic. Creating")
-    publisher.create_topic(input_topic_full_name)
+    publisher.create_topic(name = input_topic_full_name)
     log.info("Created Topic {}".format(input_topic_full_name))
 
 # Make subscriber object

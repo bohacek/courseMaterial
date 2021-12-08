@@ -20,10 +20,20 @@ topic_full_name = 'projects/{project_id}/topics/{topic}'.format(
 publisher = pubsub_v1.PublisherClient()
 
 # Make topic. Include this line only once. After running the first time, comment this line out
-publisher.create_topic(topic_full_name)
+publisher.create_topic(name = topic_full_name)
 
 # Send a message
-publisher.publish(topic_full_name, b'My first message!', spam='eggs')
-print("Sent first")
-publisher.publish(topic_full_name, b'My second message!', spam='eggs')
-print("Sent second")
+if True:
+    # this method is works on some versions of the python google.cloud package, but not on all versions
+    # is this code crashes, then set change True to False, and use the other method to send messages to pubsub
+    future = publisher.publish(topic_full_name, b'My first message!', spam='eggs')
+    print(future.result())
+    print("Sent first")
+    future = publisher.publish(topic_full_name, b'My second message!', spam='eggs')
+    print(future.result())
+    print("Sent second")
+else:
+    publisher.publish(topic_full_name, b'My first message!', spam='eggs')
+    print("Sent first")
+    publisher.publish(topic_full_name, b'My second message!', spam='eggs')
+    print("Sent second")

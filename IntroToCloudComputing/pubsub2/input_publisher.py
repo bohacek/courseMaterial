@@ -26,7 +26,7 @@ publisher = pubsub_v1.PublisherClient()
 if input_topic_full_name not in [t.name for t in publisher.list_topics(project="projects/{}".format(PROJECT_ID))]:
     # need to make input topic
     print("Did not find topic. Creating")
-    publisher.create_topic(input_topic_full_name)
+    publisher.create_topic(name = input_topic_full_name)
     print("Created Topic {}".format(input_topic_full_name))
 
 

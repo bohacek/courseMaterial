@@ -35,7 +35,7 @@ output_subscription_full_name = 'projects/{project_id}/subscriptions/{sub}'.form
 publisher = pubsub_v1.PublisherClient() # we need a publisher object because only publishers can get the list of topics and create topics
 if output_topic_full_name not in [t.name for t in publisher.list_topics(project="projects/{}".format(PROJECT_ID))]:
     print("Did not find topic. Creating")
-    publisher.create_topic(output_topic_full_name)
+    publisher.create_topic(name = output_topic_full_name)
     print("Created Topic {}".format(output_topic_full_name))
 
 
